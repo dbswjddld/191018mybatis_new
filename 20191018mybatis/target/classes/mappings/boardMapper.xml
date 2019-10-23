@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardDAO">
+	<!-- resultmap 책 497p <resultMap type="board" id="boardMap"> <id column 
+		= "seq" property = "seq"/> <result property = "title" column = "TITLE"/> 
+		<result property = "writer" column = "WRITER"/> <result property = "content" 
+		column = "CONTENT"/> <result property = "regDate" column = "REGDATE"/> <result 
+		property = "cnt" column = "CNT"/> <result property = "uploadFilename" column 
+		= "UPLOAD_FILENAME"/> </resultMap> -->
+	<insert id="insertBoard" parameterType="board">
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+			select
+			max(seq) + 1 from board
+		</selectKey>
+		insert into board(seq, title, writer, content)
+		values(#{seq},#{title},#{writer},#{content})
+	</insert>
+
+	<insert id="insertBoardProc" statementType="CALLABLE"
+		parameterType="board">
+		{ call board_ins_proc( #{title},
+		#{writer},
+		#{content},
+		#{seq, mode=OUT, jdbcType=NUMERIC, javaType=java.lang.Integer},
+		#{msg, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}) }
+	</insert>
+
+	<!-- 단건조회 -->
+	<select id="getBoard" parameterType="board" resultType="board">
+		select
+		SEQ as "seq",
+		TITLE as "title",
+		WRITER as "writer",
+		CONTENT as "content",
+		REGDATE as "regDate",
+		CNT as "cnt",
+		UPLOAD_FILENAME as "uploadFilename"
+		from board where seq = ${seq}
+	</select>
+
+	<!-- 전체조회 -->
+	<select id="getBoardlist" resultType="board">
+		select
+		SEQ as "seq",
+		TITLE as
+		"title",
+		WRITER as "writer",
+		CONTENT as "content",
+		REGDATE as "regDate",
+		CNT as "cnt",
+		UPLOAD_FILENAME as "uploadFilename"
+		from board
+		where 1 = 1
+	</select>
+
+	<select id="getBoardMap" resultType="map">
+		select
+		SEQ as "seq",
+		TITLE as "title",
+		WRITER as "writer",
+		CONTENT as
+		"content",
+		REGDATE as "regDate",
+		CNT as "cnt",
+		UPLOAD_FILENAME as
+		"uploadFilename"
+		from board
+  		<![CDATA[
+  		where seq >= 0
+  		]]>
+
+		<where>
+			<if test="title != null and title != ''">
+				AND TITLE LIKE '%' || #{title} || '%'
+			</if>
+		</where>
+		<choose>
+			<when test="orderby != null and orderby != ''">
+				<!-- null string ('')까지 처리해야 한다 -->
+				order by ${orderby} desc
+				<!-- #{}는 ""을 붙임 (num타입은 숫자만) -->
+			</when>
+			<otherwise>
+				order by seq desc
+			</otherwise>
+		</choose>
+		<!-- choose : if, else -->
+	</select>
+
+	<select id="deleteBoardList" parameterType="board">
+		DELETE board
+		WHERE seq IN
+		<foreach item="item" collection="seqList" open="(" close=")"
+			separator=",">
+			#{item}
+		</foreach>
+	</select>
+</mapper>
