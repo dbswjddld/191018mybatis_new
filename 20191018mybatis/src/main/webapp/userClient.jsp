@@ -21,6 +21,8 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
 	integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
 	crossorigin="anonymous"></script>
+	
+<script src="./resources/json.min.js"></script>
 
 <script>
 	$(function() {
@@ -140,26 +142,27 @@
 	// 등록 버튼 클릭
 	function userInsert() {
 		$('#btnInsert').on('click', function() {
-			var id = $('input:text[name="id"]').val();
+			/* var id = $('input:text[name="id"]').val();
 			var name = $('input:text[name="name"]').val();
 			var password = $('input:password[name="password"]').val();
 			var role = $('[name="role"]:checked').val();
-
-			console.log(id);
-			console.log(name);
-			console.log(password);
-			console.log(role);
-
+			*/
+			
+			var param = JSON.stringify($("#form1").serializeObject());
+			// ↑한번에 json으로 변환
+			
 			$.ajax({
 				url : "users",
 				type : 'POST',
 				dataType : 'json',
+				/*
 				data : JSON.stringify({
 					id : id,
 					name : name,
 					password : password,
 					role : role
-				}),
+				}),*/
+				data : param,
 				contentType : 'application/json',
 				success : function(response) {
 					if (response.result == true) {
@@ -177,7 +180,7 @@
 <body>
 
 	<div class="container">
-		<form>
+		<form id = "form1">
 			<div class="form-group row">
 				<label for="id" class="col-sm-2 col-form-label">ID</label>
 				<div class="col-sm-10">
