@@ -14,7 +14,8 @@ import com.company.app.board.service.BoardService;
 
 @RestController // RestController = Controller + ResponseBody
 public class BoardRestController {
-	@Autowired BoardService boardService;
+	@Autowired 
+	BoardService boardService;
 	// ajax로 목록 조회(게시판)
 	
 	@RequestMapping("/getBoardList.json")

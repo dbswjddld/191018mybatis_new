@@ -5,14 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.company.app.board.BoardSearchVO;
 import com.company.app.board.BoardVO;
 import com.company.app.board.service.BoardService;
 
 @Controller
 public class BoardController {
 
-	@Autowired BoardService boardService;
+	@Autowired 
+	BoardService boardService;
 	// ajax테스트 페이지 호출
 	@RequestMapping("/boardClient")
 	public String boardClient() {
