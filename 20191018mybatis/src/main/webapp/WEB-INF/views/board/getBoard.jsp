@@ -12,6 +12,8 @@
 	작성자 : ${board.writer} <br>
 	내용 : ${board.content} <br>
 	파일명 : ${board.uploadFilename} <br>
-	작성일자 : ${board.regDate}
+	작성일자 : ${board.regDate}<br>
+	파일 : <a href = "./download/${board.uploadFilename}">${board.uploadFilename}</a><br>
+	<img src = "./resources/image/${board.uploadFilename}">
 </body>
 </html>

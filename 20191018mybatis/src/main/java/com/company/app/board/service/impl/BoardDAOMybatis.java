@@ -16,7 +16,7 @@ public class BoardDAOMybatis {
 	// 등록
 	public void insertBoard(BoardVO vo) {
 		System.out.println("mybatis insertBoard Procedure() 실행");
-		mybatis.insert("BoardDAO.insertBoardProc", vo);
+		mybatis.insert("BoardDAO.insertBoard", vo);
 	}
 	
 	// 단건조회

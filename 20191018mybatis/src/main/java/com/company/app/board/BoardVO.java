@@ -1,6 +1,9 @@
 package com.company.app.board;
 
 import java.sql.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,4 +23,5 @@ public class BoardVO {
 	private String orderby;
 	private int[] seqList;
 	private String msg;
+	//private List<MultipartFile> uploadFile; // 1024 파일 업로드용 list로 여러개 받음
 }

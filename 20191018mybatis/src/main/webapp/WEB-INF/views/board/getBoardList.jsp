@@ -22,13 +22,15 @@
 	
 	<form action = "deleteBoardList">
 		<button>선택항목 삭제</button>
+		<hr>
 	
 	<c:forEach items = "${boardList}" var = "board">
 		<input name = "seqList" type = "checkbox" value = "${board.seq}"/>
-		제목 : ${board.title}<br>
+		제목 : <a href = "getBoard?seq=${board.seq}">${board.title}</a><br>
 		날짜 : ${board.regDate}<br>
 		번호 : ${board.seq}<br>
 		내용 : ${board.content}<br>
+		파일 : ${board.uploadFilename}
 		<hr>
 	</c:forEach>
 	</form>

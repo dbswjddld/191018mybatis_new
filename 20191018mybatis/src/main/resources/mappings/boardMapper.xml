@@ -13,8 +13,23 @@
 			select
 			max(seq) + 1 from board
 		</selectKey>
-		insert into board(seq, title, writer, content)
-		values(#{seq},#{title},#{writer},#{content})
+		insert into board(SEQ
+				, TITLE
+				, WRITER
+				, CONTENT 
+				<if test="uploadFilename != null and uploadFilename != ''">
+				, UPLOAD_FILENAME
+				</if>
+				)
+		values(
+			#{seq}
+			, #{title}
+			, #{writer}
+			, #{content}
+			<if test="uploadFilename != null and uploadFilename != ''">
+			, #{uploadFilename}
+			</if>
+			)
 	</insert>
 
 	<insert id="insertBoardProc" statementType="CALLABLE"
