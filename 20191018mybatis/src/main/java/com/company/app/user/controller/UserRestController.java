@@ -21,6 +21,7 @@ import com.company.app.user.service.UserService;
 public class UserRestController {
 	@Autowired
 	UserService userService;
+	// method 작성 안하면 get, post 둘 다 받는다
 	
 	// 전체 리스트 조회 (get)
 	@RequestMapping(value="/users", method=RequestMethod.GET)
@@ -67,4 +68,14 @@ public class UserRestController {
 		userService.updateUser(vo);
 		return vo;
 	}
+	
+	
+
+	// [1025] 부서별 인원수 조회 (Rest ver.)
+	/*
+	@RequestMapping("getEmpCnt")
+	public List<Map<String,Object>> getEmpCnt() {
+		return userService.getEmpCnt();
+	}
+	*/
 }

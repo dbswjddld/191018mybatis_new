@@ -6,6 +6,7 @@
 	<meta charset="UTF-8">
 	<title>Chart.jsp</title>
 	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -24,20 +25,27 @@
         // Create the data table.
         var data = new google.visualization.DataTable();
         data.addColumn('string', '부서');
-        data.addColumn('number', '정규직');
-        data.addColumn('number', '계약직');
-        data.addRows([
-          ['개발', 3, 5],
-          ['인사', 4, 1],
-          ['총무', 6, 1]
-        ]);
+        data.addColumn('number', '사원수');
+        
+        // ajax 요청해서 데이터 받아오기
+        var rows = [];
+        $.ajax("./getEmpCnt", {dataType:"json", async:false})
+        										// 동기방식 - 함수가 끝나고 반환값을 받은 뒤, 다음 함수를 실행
+         .done(function(result){
+        	 for(i=0; i<result.length; i++) {
+        		 rows.push( [result[i].departmentName, result[i].cnt] );
+        	 }
+         });
+
+        // 데이터 입력
+        data.addRows(rows);
 
         // Set chart options
         var options = {'title':'부서 별 인원수',
-                       'width':400,
+                       'width':800,
                        'height':300,
                        'legend':'top',
-                       colors:['red','orange','gold'],
+                       colors:['gold'],
                        bar: {groupWidth: '50%'},
                        vAxis: { gridlines: { count: 10 } }
         };
@@ -55,7 +63,7 @@
         	var dept = data.getFormattedValue(r,c);
         	alert(dept);
         }
-      }
+      } // drawChart()
     </script>
 </head>
 <body>

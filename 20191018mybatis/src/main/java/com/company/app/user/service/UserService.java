@@ -15,4 +15,9 @@ public interface UserService {
 	public int updateUser(UserVO vo);
 	//삭제
 	public int deleteUser(UserVO vo);
+	
+	
+	
+	// [1025] 부서별 인원수 조회
+	public List<Map<String,Object>> getEmpCnt();
 }

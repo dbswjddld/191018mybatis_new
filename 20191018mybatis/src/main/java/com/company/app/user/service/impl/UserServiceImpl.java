@@ -35,5 +35,11 @@ public class UserServiceImpl implements UserService {
 	public int deleteUser(UserVO dto) {
 		return userDAO.deleteUser(dto);
 	}
+	
+	// [1025] 부서별 인원수 조회
+	@Override
+	public List<Map<String, Object>> getEmpCnt() {
+		return userDAO.getEmpCnt();
+	}
 
 }

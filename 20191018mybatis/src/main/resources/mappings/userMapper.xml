@@ -51,4 +51,16 @@
 		where id = #{id}
 	</delete>
 
+
+
+
+
+	<!-- [1025] 부서 별 인원수 -->
+	<select id="getEmpCnt" resultType="map">
+		SELECT department_name "departmentName", count(employee_id) "cnt"
+		FROM hr.employees e
+		RIGHT OUTER JOIN hr.departments d
+		ON (e.department_id=d.department_id)
+		GROUP BY department_name
+	</select>
 </mapper>

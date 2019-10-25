@@ -42,4 +42,17 @@ public class UserDAOMybatis {
 		System.out.println("mybatis 사용자 삭제");
 		return mybatis.delete("UserDAO.deleteUser", dto);
 	}
+	
+	
+	
+	
+
+	
+	
+	
+	// [1025] 부서별 인원수 조회
+	public List<Map<String, Object>> getEmpCnt() {
+	// map이 여러개 -> 리스트에 맵을 담아야 한다
+		return mybatis.selectList("UserDAO.getEmpCnt");
+	}
 }
