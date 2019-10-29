@@ -12,9 +12,6 @@
 		작성자 <input name = "writer">
 		내용 <input name = "content">
 		<input type = "file" name = "uploadFile">
-		<input type = "file" name = "uploadFile">
-		<input type = "file" name = "uploadFile">
-		<input type = "file" name = "uploadFile">
 		<input type = "submit" value = "등록">
 	</form>
 </body>

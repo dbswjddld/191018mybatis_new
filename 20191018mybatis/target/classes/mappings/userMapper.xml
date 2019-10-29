@@ -17,8 +17,10 @@
 	</select>
 	
 	<select id="getUser" parameterType="user" resultType="user">
-		select id,
-		password, name, role
+		select id
+			, password
+			, name
+			, role
 		from users
 		where id=#{id}
 	</select>

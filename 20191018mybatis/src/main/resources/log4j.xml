@@ -8,7 +8,7 @@
 		class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
+			<param name="ConversionPattern" value="%-5p: %c.%M %L - %m%n" />
 		</layout>
 	</appender>
 
@@ -45,7 +45,8 @@
 	<!-- <logger name="jdbc.resultset" additivity="false"> <level value="DEBUG"/> 
 		<appender-ref ref="console"/> </logger> -->
 	<logger name="jdbc.resultsettable" additivity="false">
-		<level value="DEBUG" />
+		<level value="ERROR" />
+		<!-- DEBUG - INFO - ERROR - FETAL -->
 		<appender-ref ref="console" />
 	</logger>
 	<!-- Root Logger -->

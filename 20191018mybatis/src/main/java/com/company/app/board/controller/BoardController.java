@@ -11,20 +11,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.company.app.board.BoardVO;
 import com.company.app.board.service.BoardService;
 
 @Controller
 public class BoardController {
-
+	Logger logger = LoggerFactory.getLogger(BoardController.class);
+	
 	@Autowired 
 	BoardService boardService;
 	// ajax테스트 페이지 호출
@@ -35,16 +40,39 @@ public class BoardController {
 	
 	// 단건조회
 	@RequestMapping("/getBoard")
-	public String getBoard(BoardVO vo, Model model) {
+	public String getBoard(BoardVO vo, Model model, @RequestParam int seq) {
+		vo.setSeq(seq);
 		model.addAttribute("board", boardService.getBoard(vo));
 		return "board/getBoard"; // 넘겨줄 jsp페이지 src/main/webapp/WEB-INF/views/board/getBoard.jsp
 	}
 	
+	
+	// 단건조회 - model and view
+	/*
+		@RequestMapping("/getBoard")
+		public ModelAndView getBoard(HttpServletRequest request, BoardVO vo) {
+			ModelAndView mv = new ModelAndView();
+			vo.setSeq(Integer.parseInt(request.getParameter("seq")));
+			//mv.addObject("board", boardService.getBoard(vo)); // model
+			mv.setViewName("board/getBoard"); // view
+			return mv;
+		}
+		*/
+	
+	
 	// 전체조회
 	@RequestMapping("/getBoardMap")
-	public String getBoardMap(BoardVO vo, Model model) {
-		model.addAttribute("boardList", boardService.getBoardMap(vo));
-		return "board/getBoardList";
+	public ModelAndView getBoardMap (BoardVO vo, Model model
+				, @RequestParam(required=false, value="title", defaultValue="board") String titleValue) {
+		//System.out.println("============= title " + titleValue);
+		logger.info("============= title " + titleValue);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("boardList", boardService.getBoardMap(vo));
+		mv.setViewName("board/getBoardList");
+		return mv;
+		//model.addAttribute("boardList", boardService.getBoardMap(vo));
+		//return "board/getBoardList";
 	}
 
 	// 등록 페이지로 이동

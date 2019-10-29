@@ -41,5 +41,17 @@ public class UserServiceImpl implements UserService {
 	public List<Map<String, Object>> getEmpCnt() {
 		return userDAO.getEmpCnt();
 	}
+	
+	// [1029] 로그인
+	@Override
+	public UserVO login(UserVO vo) {
+		UserVO user = userDAO.getUser(vo);
+		if(user != null) {
+			if(user.getPassword().equals(vo.getPassword())) { // 비밀번호 비교
+				return user;
+			}
+		}
+		return null;
+	}
 
 }

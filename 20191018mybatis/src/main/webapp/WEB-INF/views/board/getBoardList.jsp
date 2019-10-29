@@ -8,6 +8,8 @@
 	<title>getBoardList</title>
 </head>
 <body>
+	<h3>${sessionScope.user.name}</h3>
+	<a href="logout">로그아웃</a>
 	<form action = "getBoardMap">
 		제목 <input name = "title">
 		정렬
