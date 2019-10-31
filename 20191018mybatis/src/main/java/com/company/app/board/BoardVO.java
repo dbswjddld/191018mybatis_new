@@ -24,4 +24,5 @@ public class BoardVO {
 	private int[] seqList;
 	private String msg;
 	//private List<MultipartFile> uploadFile; // 1024 파일 업로드용 list로 여러개 받음
+	private String boardType;
 }

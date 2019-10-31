@@ -4,8 +4,10 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
 		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -22,6 +24,31 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+	
+	<!-- [1030 로그인 인터셉터] -->
+	<beans:bean id="LoginInterceptor" class="com.company.app.common.LoginInterceptor"/>
+	
+	<!-- [1030]locale change interceptor  교재 444p-->
+	<interceptors>
+		<beans:bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<beans:property name="paramName" value="lang"/>
+		</beans:bean>	
+	
+		<!-- [1030 로그인 인터셉터] 로그인해야만 게시판 갈 수 있도록 -->
+		<interceptor>
+			<mapping path="/insertBoardForm"/>
+			<mapping path="/*"/>
+			<!-- ↓여기는 로그인 안해도 볼 수 있음 -->
+			<exclude-mapping path = "/getBoardMap"/>
+			<exclude-mapping path = "/login"/>
+			<beans:ref bean="LoginInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	
+	<!-- [1031 스케쥴러] 해당 태그들은 크론탭을 설정에 필요한 태그들 -->
+	<task:scheduler id="jobScheduler" pool-size="10" />
+	<task:annotation-driven scheduler="jobScheduler" />
 	
 	
 	<context:component-scan base-package="com.company.app" />

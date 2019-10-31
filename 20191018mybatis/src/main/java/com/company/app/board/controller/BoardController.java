@@ -6,6 +6,8 @@ import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,11 +30,25 @@ import com.company.app.board.BoardVO;
 import com.company.app.board.service.BoardService;
 
 @Controller
+//@SessionAttribute("board")
 public class BoardController {
 	Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	@Autowired 
 	BoardService boardService;
+	
+	// [1030] ModelAttribute :requestMapping보다 먼저 호출된다
+	// 어제 login할때는 매게변수에 썼음
+	@ModelAttribute("boardType")
+	public Map<String, String> getBoardType(){
+		// 게시판 구분
+		Map<String, String> boardType = new HashMap<String, String>();
+		boardType.put("일반", "t1");
+		boardType.put("공지", "t2");
+		boardType.put("첨부", "t3");
+		return boardType;
+	}
+	
 	// ajax테스트 페이지 호출
 	@RequestMapping("/boardClient")
 	public String boardClient() {
@@ -74,10 +91,22 @@ public class BoardController {
 		//model.addAttribute("boardList", boardService.getBoardMap(vo));
 		//return "board/getBoardList";
 	}
+	
+	// [1030] 수정폼
+	// 등록인지 수정인지 어떻게 아냐? PK가 있냐 없냐에 따라 수정, 등록
+	@RequestMapping("/updateBoardForm")
+	public String updateBoardForm(BoardVO vo, Model model) {
+		// 단건조회해서 모델에 담기
+		model.addAttribute("board", boardService.getBoard(vo));
+		return "board/insertBoard";
+	}
 
 	// 등록 페이지로 이동
 	@RequestMapping("insertBoardForm")
-	public String insertBoardForm(BoardVO vo) {
+	public String insertBoardForm(@ModelAttribute("board") BoardVO vo) {
+		//String a = null;
+		//a.toString();
+		// ↑ null pointer 에러 확인
 		return "board/insertBoard";
 	}
 	
@@ -112,9 +141,13 @@ public class BoardController {
 	        }
 		}
 		
+		// seq 이미 있으면 수정, 아니면 등록
+		if(vo.getSeq() > 0) {
+			boardService.updateBoard(vo);
+		} else {
+			boardService.insertBoard(vo);
+		}
 		
-		boardService.insertBoard(vo);
-		System.out.println(vo.getSeq() + vo.getMsg());
 		return "redirect:/getBoardMap";
 	}
 	

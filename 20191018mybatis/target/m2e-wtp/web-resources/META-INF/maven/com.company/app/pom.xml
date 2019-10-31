@@ -35,6 +35,7 @@
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
+					<!-- commons-logging 대신 log4j를 쓸 것이기 때문에 제외했다. (같이 있으면 충돌오류) -->
 				</exclusion>
 			</exclusions>
 		</dependency>

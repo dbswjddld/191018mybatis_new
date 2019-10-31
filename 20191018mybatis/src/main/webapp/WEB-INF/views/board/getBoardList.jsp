@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix='c' %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +12,12 @@
 	<a href="logout">로그아웃</a>
 	<form action = "getBoardMap">
 		제목 <input name = "title">
+		게시판 구분
+		<select name = "boardType">
+			<c:forEach items = "${boardType}" var = "t">
+				<option value = "${t.value}">${t.key}</option>
+			</c:forEach>
+		</select>
 		정렬
 		<select name = "orderby">
 			<option value = "">선택
