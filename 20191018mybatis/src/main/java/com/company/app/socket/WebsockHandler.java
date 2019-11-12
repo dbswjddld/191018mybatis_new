@@ -1,5 +1,9 @@
 package com.company.app.socket;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
+
 public class WebsockHandler extends TextWebSocketHandler implements InitializingBean {
 	private final Logger logger = LogManager.getLogger(getClass());
 	private Set<WebSocketSession> sessionSet = new HashSet<WebSocketSession>();

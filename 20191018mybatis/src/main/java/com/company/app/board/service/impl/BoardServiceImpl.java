@@ -12,7 +12,8 @@ import com.company.app.board.service.BoardService;
 @Service
 public class BoardServiceImpl implements BoardService {
 
-	@Autowired BoardDAOMybatis boardDAO;
+	//@Autowired BoardDAOMybatis boardDAO;
+	@Autowired BoardDAOJpa boardDAO;
 	
 	@Override
 	public void insertBoard(BoardVO vo) {
@@ -22,7 +23,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void deleteBoard(BoardVO vo) {
-		boardDAO.deleteBoardList(vo);
+		boardDAO.deleteBoard(vo);
 	}
 
 	@Override
@@ -37,7 +38,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardVO> getBoardList(BoardVO vo) {
-		return boardDAO.getBoardList();
+		return boardDAO.getBoardList(vo);
 	}
 
 	@Override

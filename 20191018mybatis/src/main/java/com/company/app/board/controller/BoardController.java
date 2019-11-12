@@ -85,7 +85,7 @@ public class BoardController {
 		logger.info("============= title " + titleValue);
 		
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("boardList", boardService.getBoardMap(vo));
+		mv.addObject("boardList", boardService.getBoardList(vo));
 		mv.setViewName("board/getBoardList");
 		return mv;
 		//model.addAttribute("boardList", boardService.getBoardMap(vo));
